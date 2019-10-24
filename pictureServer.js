@@ -88,6 +88,23 @@ serial.pipe(parser);
 parser.on('data', function(data) {
   console.log('Data:', data);
   io.emit('server-msg', data);
+  if(data == "light") {
+  	
+    console.log('ledON');
+    serial.write('H');
+
+    /// First, we create a name for the new picture.
+    /// The .replace() function removes all special characters from the date.
+    /// This way we can use it as the filename.
+    var imageName = new Date().toString().replace(/[&\/\\#,+()$~%.'":*?<>{}\s-]/g, '');
+
+    console.log('making a making a picture at'+ imageName); // Second, the name is logged to the console.
+
+    //Third, the picture is  taken and saved to the `public/`` folder
+    NodeWebcam.capture('public/'+imageName, opts, function( err, data ) {
+    io.emit('newPicture',(imageName+'.jpg')); ///Lastly, the new name is send to the client web browser.
+    });
+    }
 });
 //----------------------------------------------------------------------------//
 
@@ -100,8 +117,7 @@ io.on('connect', function(socket) {
 
   // if you get the 'ledON' msg, send an 'H' to the Arduino
   socket.on('ledON', function() {
-    console.log('ledON');
-    serial.write('H');
+
   });
 
   // if you get the 'ledOFF' msg, send an 'L' to the Arduino
@@ -123,6 +139,7 @@ io.on('connect', function(socket) {
     NodeWebcam.capture('public/'+imageName, opts, function( err, data ) {
     io.emit('newPicture',(imageName+'.jpg')); ///Lastly, the new name is send to the client web browser.
     /// The browser will take this new name and load the picture from the public folder.
+
   });
 
   });
