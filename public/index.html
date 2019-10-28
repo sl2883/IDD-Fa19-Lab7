@@ -4,14 +4,23 @@
         <meta charset="utf8"/>
         <title>Interaction Engine - Hello You!</title>
         <script src="/socket.io/socket.io.js"></script>
+	 <link rel="stylesheet" href="custom.css"> 
     </head>
     <body>
-        <body bgcolor="#000">
-        <button onclick="ledON()">LED ON</button>
-        <button onclick="ledOFF()">LED OFF</button>
-        <button onclick="takePicture()">Take a picture</button>
+        <body bgcolor="#ff9900">
+		<div class="split left">
+			<div class="centered">
+				<h2>Poster Creator</h2>
+				<button class="button button1" onclick="ledON()">Light on</button>
+        			<button class="button button2" onclick="ledOFF()">Light off</button>
+        			<button class="button button3" onclick="takePicture()">Click photo</button>
+			</div>
+		<div class="split right">
+			<div class="centered" style="background-color:white">
+        			<img src="" id= "pictureContainer" width="640px" height="480px" >
+			</div>
+		</div>
       </br>
-        <img src="" id= "pictureContainer" alt="WebCam image  made by the webserver">
         <script src="client.js"></script>
     </body>
 </html>
